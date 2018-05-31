@@ -6,7 +6,7 @@
 /*   By: dseabel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/08 15:27:42 by dseabel           #+#    #+#             */
-/*   Updated: 2018/05/29 21:21:35 by dseabel          ###   ########.fr       */
+/*   Updated: 2018/05/31 16:34:26 by dseabel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,12 @@
 
 char	*ft_strdup(const char *s1)
 {
-	int			i;
-	int			size;
-	char		*new_string;
+	char	*new;
+	size_t	len;
 
-	i = 0;
-	size = 0;
-	while (s1[size])
-		size++;
-	new_string = (char*)malloc(sizeof(*new_string) * (size));
-	if (new_string == NULL)
-		return (NULL);
-	while (i < size)
-	{
-		new_string[i] = s1[i];
-		i++;
-	}
-	new_string[i] = '\0';
-	return (new_string);
+	len = ft_strlen(s1);
+	new = (char*)malloc(len + 1 * sizeof(char));
+	if (new)
+		ft_strcpy(new, s1);
+	return (new);
 }

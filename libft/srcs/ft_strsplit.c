@@ -6,51 +6,71 @@
 /*   By: dseabel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 02:29:27 by dseabel           #+#    #+#             */
-/*   Updated: 2018/05/30 02:31:36 by dseabel          ###   ########.fr       */
+/*   Updated: 2018/05/31 16:44:25 by dseabel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/libft.h"
 
-static char		*ft_replace_chr(char const *s, int c1, int c2)
+static int		count_words(char const *s, char c)
 {
-	size_t		i;
+	int		count;
+
+	count = 0;
+	while (*s)
+	{
+		if (*s == c)
+			s++;
+		else
+		{
+			count++;
+			while (*s && *s != c)
+				s++;
+		}
+	}
+	return (count);
+}
+
+static char		*get_next_word(const char *s, char c)
+{
+	size_t	length;
+	char	*word;
+	int		i;
 
 	i = 0;
-	while (s[i])
-	{
-		if (s[i] == c1)
-			*((char *)s + i) = c2;
-		++i;
-	}
-	return ((char *)s);
+	length = ft_strlen(s);
+	if (!(word = (char*)malloc(length + 1)))
+		return (NULL);
+	while (*s && *s != c)
+		word[i++] = *s++;
+	word[i] = '\0';
+	return (word);
 }
 
 char			**ft_strsplit(char const *s, char c)
 {
-	size_t		i;
-	size_t		j;
-	size_t		end;
-	char		tmp[ft_strlen(s) + 1];
-	char		**arr;
+	char	**tab;
+	int		nb_words;
+	int		i;
 
+	if (!s)
+		return (NULL);
+	nb_words = count_words(s, c);
+	if (!(tab = (char**)malloc(sizeof(*tab) * (nb_words + 1))))
+		return (NULL);
 	i = 0;
-	j = 0;
-	end = ft_strlen(s);
-	ft_bzero(tmp, sizeof(tmp));
-	ft_strcpy(tmp, s);
-	ft_replace_chr(tmp, c, '\0');
-	arr = (char **)malloc(sizeof(*arr) * (end));
-	while (i < end && s[i] != '\0')
+	while (*s)
 	{
-		while (s[i] == c)
-			++i;
-		arr[j] = ft_strdup(tmp + i);
-		++j;
-		while (tmp[i] != '\0')
-			++i;
-		++i;
+		if (*s == c)
+			s++;
+		else
+		{
+			tab[i] = get_next_word(s, c);
+			i++;
+			while (*s && *s != c)
+				s++;
+		}
 	}
-	arr[j] = NULL;
-	return (arr);
+	tab[i] = NULL;
+	return (tab);
 }

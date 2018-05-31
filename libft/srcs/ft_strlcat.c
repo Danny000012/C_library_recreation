@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dseabel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/17 18:55:44 by dseabel           #+#    #+#             */
-/*   Updated: 2018/05/29 22:51:17 by dseabel          ###   ########.fr       */
+/*   Created: 2018/05/31 13:35:53 by dseabel           #+#    #+#             */
+/*   Updated: 2018/05/31 13:38:43 by dseabel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,29 @@
 
 size_t	ft_strlcat(char *dst, const char *src, size_t len)
 {
-	unsigned	int i;
-	unsigned	int j;
-	unsigned	int k;
+	char		*d;
+	const char	*s;
+	size_t		n;
+	size_t		dlen;
 
-	i = 0;
-	while (dst[i] != '\0')
-		i++;
-	j = 0;
-	while (src[j] != '\0' && j < len)
+	d = dst;
+	s = src;
+	n = len;
+	while (n-- != 0 && *d != '\0')
+		d++;
+	dlen = d - dst;
+	n = len - dlen;
+	if (n == 0)
+		return (dlen + ft_strlen(s));
+	while (*s != '\0')
 	{
-		dst[i + j] = src[j];
-		j++;
+		if (n != 1)
+		{
+			*d++ = *s;
+			n--;
+		}
+		s++;
 	}
-	dst[i + j] = '\0';
-	k = 0;
-	while (src[k] != '\0')
-		k++;
-	return (k + len);
+	*d = '\0';
+	return (dlen + (s - src));
 }
