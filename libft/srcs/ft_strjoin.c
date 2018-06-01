@@ -6,7 +6,7 @@
 /*   By: dseabel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 17:22:52 by dseabel           #+#    #+#             */
-/*   Updated: 2018/05/31 16:06:18 by dseabel          ###   ########.fr       */
+/*   Updated: 2018/06/01 15:57:27 by dseabel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,24 @@
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
-	int		i;
-	int		strlen;
-	char	*tmp;
+	char	*new_str;
+	size_t	i;
+	size_t	j;
+	size_t	s1_len;
+	size_t	s2_len;
 
-	strlen = (ft_strlen((char *)s1) + ft_strlen((char *)s2) + 1);
-	tmp = (char *)malloc(sizeof(*tmp) * (strlen));
-	i = 0;
-	if (tmp)
-	{
-		while (*s1)
-			tmp[i++] = *s1++;
-		while (*s2)
-			tmp[i++] = *s2++;
-		tmp[i] = '\0';
-		return (tmp);
-	}
-	return (NULL);
+	if (!s1 || !s2)
+		return (NULL);
+	s1_len = ft_strlen(s1);
+	s2_len = ft_strlen(s2);
+	new_str = ft_strnew(s1_len + s2_len);
+	if (!new_str)
+		return (NULL);
+	i = -1;
+	j = -1;
+	while (++i < s1_len)
+		*(new_str + i) = *(s1 + i);
+	while (++j < s2_len)
+		*(new_str + i++) = *(s2 + j);
+	return (new_str);
 }

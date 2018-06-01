@@ -6,7 +6,7 @@
 /*   By: dseabel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/28 12:04:22 by dseabel           #+#    #+#             */
-/*   Updated: 2018/05/30 02:19:31 by dseabel          ###   ########.fr       */
+/*   Updated: 2018/06/01 15:49:31 by dseabel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,27 @@
 
 char	*ft_strtrim(char const *s)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		len;
+	char	*str;
 
-	i = 0;
-	while ((s[i] == ' ' || s[i] == '\n' || s[i] == '\t'))
-		i++;
-	if (s[i] == '\0')
-		return (ft_strdup(s + i));
-	j = ft_strlen(s) - 1;
-	while ((s[j] == ' ' || s[j] == '\t' || s[j] == '\n') && j > 0)
-		j--;
-	return (ft_strsub(s, i, j - i + 1));
+	if (s == NULL)
+		return (NULL);
+	len = ft_strlen(s);
+	while (s[len - 1] == ' ' || s[len - 1] == '\t' || s[len - 1] == '\n')
+		len--;
+	i = -1;
+	while (s[++i] == ' ' || s[i] == '\t' || s[i] == '\n')
+		len--;
+	if (len <= 0)
+		len = 0;
+	str = (char*)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
+		return (NULL);
+	s += i;
+	i = -1;
+	while (++i < len)
+		str[i] = *s++;
+	str[i] = '\0';
+	return (str);
 }

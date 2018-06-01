@@ -6,7 +6,7 @@
 /*   By: dseabel <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/30 01:58:07 by dseabel           #+#    #+#             */
-/*   Updated: 2018/05/30 02:03:01 by dseabel          ###   ########.fr       */
+/*   Updated: 2018/06/01 15:33:50 by dseabel          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 
 char	*ft_strmap(char const *s, char (*f)(char))
 {
-	char			*new;
-	unsigned int	i;
+	char	*new_str;
+	int		i;
 
-	new = ft_strnew(ft_strlen(s));
-	if (new == NULL)
+	if (!s)
 		return (NULL);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		new[i] = f(s[i]);
-		i++;
-	}
-	return (new);
+	new_str = ft_strnew(ft_strlen(s));
+	if (!new_str)
+		return (NULL);
+	i = -1;
+	while (*(s + ++i))
+		*(new_str + i) = f(*(s + i));
+	return (new_str);
 }
